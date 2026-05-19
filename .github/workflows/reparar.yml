@@ -1,27 +1,21 @@
 name: Reparar Motor y Compilar
 on: [push, workflow_dispatch]
 jobs:
-  repair_and_build:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Configurar Java
+    - name: Configurar Java 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
-    - name: Generar Gradlew Oficial
-      run: |
-        npm install -g corepack
-        gradle wrapper --gradle-version 8.5
-        chmod +x gradlew
-    - name: Subir cambios al repositorio
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add gradlew gradle/
-        git commit -m "Auto-generar motor de compilación" || echo "No hay cambios"
-        git push origin HEAD
+    - name: Instalar Gradle Oficial
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: 8.5
+    - name: Generar Wrapper
+      run: gradle wrapper
     - name: Compilar APK Ultra Liviano
       run: ./gradlew assembleDebug
     - name: Guardar APK Terminado
