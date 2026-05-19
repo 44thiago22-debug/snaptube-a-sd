@@ -1,0 +1,18 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.miniapp.snaptubesd'
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.miniapp.snaptubesd"
+        minSdk 23 // Android 6.0
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+        }
+    }
+}
